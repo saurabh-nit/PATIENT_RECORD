@@ -3,9 +3,256 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+  <body style="background-color:#c7eac7">
+  <div class="container">
+
+      <div class="row col-lg-4 col-lg-offset-4 ">
+        <h2><%= title %></h2>
+        <form name="pet">
+              <div class="form-group">
+                <label for="fname">First Name :</label>
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
+              </div>
+
+              <div class="form-group">
+                <label for="lname">Last Name :</label>
+                <input type="text" class="form-control" id="lname" placeholder="Enter Last Name">
+              </div>
+
+              <div class="form-group">
+                <label for="age">Age :</label>
+                <input type="text" class="form-control" id="age" placeholder="Enter Age">
+              </div>
+
+              <div class="form-group">
+                <label for="dob">Date of Birth :</label>
+                <input type="text" class="form-control" id="dob" placeholder="DD/MM/YYYY">
+              </div>
+
+              <div class="form-group">
+                 <label for="gender">Gender :</label>
+                 <select id="gender" class="form-control">
+                    <option value="dft" selected disabled hidden>Select Gender</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                    <option value="OTHERS">OTHERS</option>
+                </select>
+             </div>
+
+             <div class="form-group">
+               <label for="phone">Phone Number :</label>
+               <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number">
+             </div>
+
+             <div class="form-group">
+                <label for="information">Additional Information :</label>
+                <textarea class="form-control" rows="2" id="information" placeholder="Enter Some Additional Information"></textarea>
+             </div>
+
+          <button type="button" id="btn" class="btn btn-success col-md-offset-4 "><b>Submit</b></button>
+
+
+    </form>
+  </div>     <!-- Second Cloumn-->
+</div>          <!--   Container Class -->
+
+ <script>
+    $(document).ready(function() {
+         $('#btn').click(function (evt) {
+           evt.preventDefault();
+
+          validate();
+
+           var patient = {
+
+                 name :  {
+                           first : $('#fname').val(),
+                            last : $('#lname').val(),
+                         },
+                ageOf : $('#age').val(),
+            birthDate : $('#dob').val(),
+              gender  : $('#gender').val(),
+              phoneNo : $('#phone').val(),
+               info   : $('#information').val()
+
+           }
+
+      $.ajax({
+               type :"POST",
+              cache :false,
+                url :'/',
+               data : patient ,    // multiple data sent using ajax
+            success : function(result){
+                         alert('Details added successfully');
+                         clearform();
+                        }
+             });
+         window.location.href='/list';
+         return false;
+    });
+});
+
+  function clearform(){
+      $('#fname').val(null)
+      $('#lname').val(null)
+      $('#age').val(null)
+      $('#dob').val(null)
+      $('#gender').val(null)
+      $('#phone').val(null)
+      $('#information').val(null)
+   }
+
+   function validate(){
+
+             first = $('#fname').val();
+              last = $('#lname').val();
+
+             ageOf = $('#age').val();
+         birthDate = $('#dob').val();
+           gender  = $('#gender').val();
+           phoneNo = $('#phone').val();
+            info   = $('#information').val();
+
+   if(user(first,last))
+     {
+
+      if(age(ageOf))
+        {
+          if(birth(birthDate))
+             {
+               if(sex(gender))
+                 {
+                   if(phone(phoneNo))
+                      {
+                        if(extra(info))
+                          {
+
+                           }
+                     }
+                }
+             }
+       }
+    }
+   return false;
+   }
+
+    // USER NAME VALIDATION --
+   function user(f,l)
+     {
+       if (f==''){
+           alert('Please fill first name');
+           f.focus();
+           return false;
+       }
+       else if(l==''){
+         alert('Please fill last name');
+         l.value.focus();
+         return false;
+       }
+       else{
+        return true;
+      }
+     }
+
+
+   function age(x)
+     {
+       var numbers = /^[0-9]+$/;
+       if(x==''){
+          alert('Please enter age.');
+          x.focus();
+          return false;
+        }
+       else if(x.match(numbers))
+         {
+          if(x>0 && x<100)
+            return true;
+          else {
+            alert("Age should be between 1 to 100");
+            x.focus();
+           return false;
+          }
+         }
+       else
+        {
+          alert('Age should be Numeric Only');
+          x.focus();
+         return false;
+        }
+    }
+
+   function birth(b)
+   {
+     if(b==''){
+       alert("Please fill date of birth in proper format");
+       b.focus();
+       return false;
+      }
+     else {
+        return true;
+      }
+   }
+
+  function sex(gender){
+  //   if($('#gender').val()!='MALE' || $('#gender').val()!='FEMALE' || $('#gender').val()!='OTHERS'){
+  //    alert("Please Choose Gender");
+  //    gender.focus();
+  //    return false;
+  //  }
+  //  else {}
+     return true;
+
+  }
+
+
+  function phone(phoneNo)
+  {
+    var numbers = /^[0-9]+$/;
+    if(phoneNo==''){
+      alert("Please Give Phone Number");
+      phoneNo.focus();
+      //return false;
+    }
+    else if(phoneNo.match(numbers))
+     {
+      var len = phoneNo.length;
+       if(len<10 || len==0){
+         alert("phone Number Length should be 10 ");
+         phoneNo.focus();
+         return false;
+        }
+       else {
+         return true;
+       }
+     }
+    else{
+           alert('Phone number should be numeric.');
+           phoneNo.focus();
+           return false;
+       }
+  }
+
+
+
+
+   function extra(info)
+
+      {
+      var len = info.length;
+      if (len == 0)
+      {
+      alert("Give Some Additional Inforation");
+      info.focus();
+      return false;
+      }
+      return true;
+      }
+
+</script>
+</body>
 </html>

@@ -1,0 +1,82 @@
+<html>
+</<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  </head>
+  <body>
+<div></div>
+<div class="pull-left">
+      <form class="navbar-form navbar-left">
+        <input type="text" id="query" class="form-control" onkeyup="mySearch()" placeholder="Search for a Patient...">
+      </form>
+</div>
+ <table id="myTable" class="table table-striped table-bordered table-responsive">
+ <thead>
+   <tr class="success">
+     <th>Serial No.</th>
+     <th>Patient Name</th>
+     <th>Age</th>
+     <th>Date of Birth</th>
+     <th>Gender</th>
+     <th>Phone</th>
+     <th>Additional Information</th>
+
+   </tr>
+ </thead>
+ <tbody>
+  <% pts.forEach(function(v,index){ %>
+   <tr class="warning" id="row">
+     <td><h6><%= (index+1) %></h6></td>
+     <td><h6><%= v.name.first+" "+v.name.last %></h6></td>
+     <td><h6><%= v.ageOf %></h6></td>
+     <td><h6><%= v.birthDate %></h6></td>
+     <td><h6><%= v.gender %></h6></td>
+     <td><h6><%= v.phoneNo %></h6></td>
+     <td><h6><%= v.info %></h6></td>
+
+
+   </tr>
+   <% }) %>
+ </tbody>
+</table>
+<script>
+ function mySearch(){
+      // console.log('In MySEARCH FUNCTION');
+       var input = $('#query').val();
+      // console.log(input);
+       var filter= $('#query').val().toUpperCase();
+      // console.log(filter);
+       var tabledata = document.getElementById("myTable");
+      // console.log(tabledata);
+       var tr = tabledata.getElementsByTagName("tr");
+      // console.log(tr);
+
+       for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName('td')[1];
+         if (td) {
+                   if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                       tr[i].style.display = "";
+                   }
+                   else {
+                            tr[i].style.display = "none";
+                   }
+        }
+      }
+}
+
+</script>
+</body>
+</html>
