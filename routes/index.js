@@ -29,7 +29,7 @@ router.post('/',function(req,res){
      //res.send(std1);          // send response to clint
      //console.log(data1);       // will show on server terminal
      var pts = new Patient(data1);
-     console.log(pts);
+    // console.log(pts);
      pts.save(function(err,result){
     //   console.log(err);
            if(err){
