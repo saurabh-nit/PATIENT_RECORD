@@ -62,16 +62,16 @@
        var tabledata = document.getElementById("myTable");
       // console.log(tabledata);
        var tr = tabledata.getElementsByTagName("tr");
-      // console.log(tr);
+       console.log(tr);
 
        for (i = 0; i < tr.length; i++) {
          td = tr[i].getElementsByTagName('td')[1];
          if (td) {
                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                       tr[i].style.display = "";
+                       tr[i].style.display = "";    // if matches then display the table data
                    }
                    else {
-                            tr[i].style.display = "none";
+                            tr[i].style.display = "none";   //if not matches then display none( hide that row)
                    }
         }
       }
